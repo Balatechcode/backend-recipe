@@ -4,9 +4,17 @@ import { db } from "./config/db.js";
 import { favorites } from "./db/schema.js";
 import { and } from "drizzle-orm";
 import { eq } from "drizzle-orm";
+import job from "./config/cron.js";
+
 
 const app = express();
 const PORT = env.PORT || 3000;
+
+if (env.NODE_ENV === "production") {
+  job.start();  
+  console.log("Cron job started");
+}
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
